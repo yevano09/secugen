@@ -1,6 +1,6 @@
 import subprocess
 
-p = subprocess.Popen( [ "./match_fdu05", "jawahar"], stdout=subprocess.PIPE,shell=True)
+p = subprocess.Popen( "./match_fdu05 jawahar", stdout=subprocess.PIPE,shell=True)
 
 (output, err) = p.communicate()
 
