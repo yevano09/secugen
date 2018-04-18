@@ -69,10 +69,10 @@ class LogIn(tk.Frame):
 
 
         actLabel = Label(self, text = 'Account Number:')
-        pinLabel = Label(self, text = 'PIN Number: ')
+        pinLabel = Label(self, text = 'Name : ')
 
         actEntry = Entry(self)
-        pinEntry = Entry(self, show ="*")
+        pinEntry = Entry(self)
 
         actLabel.pack(pady =10, padx = 10, side = TOP, anchor = N)
         pinLabel.pack(pady =5, padx = 10, side = TOP, anchor  = S)
