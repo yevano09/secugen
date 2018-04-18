@@ -5,7 +5,7 @@ def gettakePicture(name):
 	print(" entering getTakePicture")
 	print( name )
 	fname= name+'.jpg'
-	result = subprocess.Popen(['fswebcam','-S', '8',  name ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	result = subprocess.Popen(['fswebcam','-S', '8',  fname ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 	out, err = result.communicate()
 	print( out ) 
 	return
