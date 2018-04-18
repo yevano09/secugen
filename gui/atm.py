@@ -9,11 +9,14 @@ else:
     from tkinter import *
     import tkinter as tk
 
+from pswebcam import getface, gettakePicture 
+from psfingerprintcheck import checkFingerImage
 Large_Font = ("Verdana", 18)
 Small_Font = ("Verdana", 12)
 
 act = '12'
 pin = '12'
+actNum ='default'
 
 
 class ATM(tk.Tk):
@@ -23,7 +26,8 @@ class ATM(tk.Tk):
         tk.Tk.wm_title(self, "ATM Simulator")
 
         #tk.Tk.iconbitmap(self, default = "atm.ico")
-
+	self.var=StringVar()
+	self.var.set("defaultt")
         container = tk.Frame(self)
         container.pack(side = "top", fill ="both", expand =True)
         container.grid_rowconfigure(100, weight=1)
@@ -43,6 +47,14 @@ class ATM(tk.Tk):
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+    
+    def setVar(self,vari):
+	self.var.set(vari)
+	#self.update_idletasks()
+
+
+    def getVar(self):
+	return self.var.get()
 
 class LogIn(tk.Frame):
     def __init__(self, parent, controller):
@@ -80,12 +92,9 @@ class LogIn(tk.Frame):
     def LogInCheck(self):
         actNum = actEntry.get()
         pinNum = pinEntry.get()
-
-        if actNum == act and pinNum == pin:
-            self.controller.show_frame(WelcomePage)
-        else: 
-            return
-            self.controller.show_frame(LogIn)
+	self.controller.setVar(pinNum)
+#        if actNum == act and pinNum == pin:
+	self.controller.show_frame(WelcomePage)
 
 
 class WelcomePage(tk.Frame):
@@ -96,25 +105,28 @@ class WelcomePage(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text = "Welcome to the ATM Simulator", font = Large_Font)
         label.pack(pady=100, padx=100)
+	self.controller = controller
+	label2 = ttk.Label(self, textvariable=self.controller.getVar(),font=Large_Font)
 
-        checkButton = ttk.Button(self, text = "Checking Account", 
-                             command = lambda: controller.show_frame(Checking))
+        label.pack(pady=100, padx=100)
+
+
+        checkButton = ttk.Button(self, text = "Take Picture", 
+                             command = self.talkPic )
         checkButton.pack()
-
-        saveButton = ttk.Button(self, text = "Savings Account", 
-                            command = lambda: controller.show_frame(Savings))
-        saveButton.pack()
-
-        transButton = ttk.Button(self, text = "Transfer Funds", 
-                            command = lambda: controller.show_frame(Transfer))
-        transButton.pack()
-
         quitButton = ttk.Button(self, text = "End Transaction", command = self.client_exit)
         quitButton.pack()
 
     def client_exit(self):
         exit()
-
+    
+    def talkPic(self):
+	gettakePicture(self.controller.getVar())
+	if ( getface(self.controller.getVar()) == True ):
+		self.controller.show_frame(Savings)
+	else:
+		self.controller.show_frame(Login)
+    
 class Checking(tk.Frame):
 
     #Checking Account Window
@@ -122,7 +134,7 @@ class Checking(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = tk.Label(self, text = "Checking Account", font = Large_Font)
+        label = tk.Label(self, text = "successfully Authenticated to  Account", font = Large_Font)
         label.pack(pady=100, padx=100)
 
         homeButton = ttk.Button(self, text = "Back to Home Page", 
@@ -139,15 +151,20 @@ class Savings(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = ttk.Label(self, text = "Savings Account", font = Large_Font)
+        label = ttk.Label(self, text = "Fingerprint Auth", font = Large_Font)
         label.pack(pady=100, padx=100)
-
-        homeButton = ttk.Button(self, text = "Back to Home Page", 
-                             command = lambda: controller.show_frame(WelcomePage))   
+	
+        homeButton = ttk.Button(self, text = "Finger printAuth", 
+                             command = self.fingerAuth() )   
         homeButton.pack()
         quitButton = ttk.Button(self, text = "End Transaction", command = quit)
         quitButton.pack()
 
+    def fingerAuth(self):
+	if( checkFingerImage(self.controller.getVar()) == True ):
+		self.controller.show_frame(Checking)
+	else:
+		self.controller.show_frame(Login)
 
 class Transfer(tk.Frame):
 
@@ -164,6 +181,7 @@ class Transfer(tk.Frame):
         homeButton.pack()
         quitButton = ttk.Button(self, text = "End Transaction", command = quit)
         quitButton.pack()
+
 
 atm = ATM()
 atm.mainloop()    
