@@ -49,7 +49,7 @@ class LogIn(tk.Frame):
 
         global actEntry
         global pinEntry
-
+	self.controller = controller
         tk.Frame.__init__(self, parent)
 
         logLabel = ttk.Label(self, text = "Login With Your Account Number and Pin", font = Large_Font)
@@ -82,10 +82,10 @@ class LogIn(tk.Frame):
         pinNum = pinEntry.get()
 
         if actNum == act and pinNum == pin:
-            self.show_frame(WelcomePage)
+            self.controller.show_frame(WelcomePage)
         else: 
             return
-            self.show_frame(LogIn)
+            self.controller.show_frame(LogIn)
 
 
 class WelcomePage(tk.Frame):
