@@ -10,7 +10,16 @@ def gettakePicture(name):
 	print( out ) 
 	return
 
-
+def registerPicture(name):
+	print(" entering getTakePicture")
+	print( name )
+	fname= 'knownfaces/'+name+'.jpg'
+	result = subprocess.Popen(['fswebcam','-S', '8',  fname ], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+	out, err = result.communicate()
+	print( out ) 
+	return
+	
+	
 def getface(name):
 	print(" Entering face recognition" )
 	retVal = False;
