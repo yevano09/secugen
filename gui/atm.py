@@ -154,7 +154,7 @@ class Checking(tk.Frame):
 
 	def withdraw(self):
 		ledGlow(3)
-		self.controller.show_frame(Transfer))   
+		self.controller.show_frame(Transfer)  
 
 
 class Savings(tk.Frame):
