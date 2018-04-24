@@ -143,8 +143,7 @@ class Checking(tk.Frame):
         entry1 = Entry(self, bd=5)
         entry1.pack(side=RIGHT)
 
-        withdrawMoney = ttk.Button(self, text = "withdraw", 
-                             command = lambda: controller.show_frame(Transfer))   
+        withdrawMoney = ttk.Button(self, text = "withdraw", command = self.withdraw)
         withdrawMoney.pack()
 
         homeButton = ttk.Button(self, text = "Back to Home Page", 
@@ -152,6 +151,10 @@ class Checking(tk.Frame):
         homeButton.pack()
         quitButton = ttk.Button(self, text = "End Transaction", command = quit)
         quitButton.pack()
+
+	def withdraw(self):
+		ledGlow(3)
+		self.controller.show_frame(Transfer))   
 
 
 class Savings(tk.Frame):
