@@ -16,4 +16,4 @@ def checkFingerImage(name):
 
 
 if __name__ == "__main__":
-		checkFingerImage("jawahar")
+		checkFingerImage("maustrap")
