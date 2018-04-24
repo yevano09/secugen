@@ -11,7 +11,7 @@ else:
 
 from pswebcam import getface, gettakePicture 
 from psfingerprintcheck import checkFingerImage
-
+from rpigipo import ledGlow
 
 Large_Font = ("Verdana", 18)
 Small_Font = ("Verdana", 12)
@@ -137,6 +137,15 @@ class Checking(tk.Frame):
         label2.pack(pady=100, padx=100)
         label = tk.Label(self, text = "successfully Authenticated to  Account", font = Large_Font)
         label.pack(pady=100, padx=100)
+        label3 = ttk.Label(self, text="Amount to withdraw", font = Small_Font)
+        label3.pack(pady=100, padx=100)
+        
+        entry1 = Entry(self, bd=5)
+        entry1.pack(side=RIGHT)
+
+        withdrawMoney = ttk.Button(self, text = "withdraw", 
+                             command = lambda: controller.show_frame(Transfer))   
+        withdrawMoney.pack()
 
         homeButton = ttk.Button(self, text = "Back to Home Page", 
                              command = lambda: controller.show_frame(WelcomePage))   
@@ -180,8 +189,10 @@ class Transfer(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        label = ttk.Label(self, text = "Transfer Funds", font = Large_Font)
+        label = ttk.Label(self, text = "withdraw Funds", font = Large_Font)
         label.pack(pady=100, padx=100)
+
+        ledGlow(3)
 
         homeButton = ttk.Button(self, text = "Back to Home Page", 
                              command = lambda: controller.show_frame(WelcomePage))   
